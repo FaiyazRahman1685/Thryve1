@@ -237,6 +237,7 @@ def action():
                return redirect("/admin")
           if action == "removemsg":
                db.execute("delete from msg where id=? ", id)
+               return redirect("/admin")
      
           db.execute("update orders set status = ? where id=?", action ,id)
           return redirect("/admin")
