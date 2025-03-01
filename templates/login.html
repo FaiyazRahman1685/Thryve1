@@ -1,0 +1,46 @@
+{% extends "layout.html"%}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block body %}
+<div class="hero bg-base-200 min-h-screen animate__animated animate__slideInUp">
+  <div class="hero-content flex-col lg:flex-row-reverse min-w-full">
+    
+    <div class="card bg-accent w-full max-w-sm shrink-0 shadow-2xl">
+      <form action="/login" method='post' class="card-body">
+        <button class="hidden" type="submit" name="action" value="login" >Login</button>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Email</span>
+          </label>
+          <input type="email" placeholder="email" name="email" class="input input-bordered bg-white text-base-100 placeholder-base-100" required />
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Username</span>
+          </label>
+          <input type="text" placeholder="username" name="username" class="input input-bordered bg-white text-base-100 placeholder-base-100" required />
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text text-base">Password</span>
+          </label>
+          <input type="password" placeholder="password" name="password" class="input input-bordered bg-white text-base-100 placeholder-base-100" />
+          <label class="label">
+          <button  name="action" value="forgetpass" method='post' type="submit" class="text-blue-500 hover:underline bg-transparent border-none"> Forgot password</button>
+          </label>
+        </div>
+        <div class=" gap-2 flex">
+          <button class="btn btn-primary flex-1" type="submit" name="action" value="reg">register</button>
+          <button class="btn btn-primary flex-1" type="submit" name="action" value="login">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+

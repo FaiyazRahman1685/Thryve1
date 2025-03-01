@@ -1,0 +1,38 @@
+{% extends "layout.html"%}
+
+{% block title %}
+   Reset
+{% endblock %}
+
+{% block body %}
+<div class="hero bg-base-200 min-h-screen"  >
+    <div class="hero-content text-center flex flex-col items-center">
+      <div class="max-w-md">
+        <h1 class="text-6xl font-bold text-secondary">Success</h1>
+        <p class="py-6 text-secondary text-2xl"  >
+           {{msg}}<br>
+           Enter the OTP and your new password
+        </p>
+        <form action="/verifyotp" method='post' class="card-body">
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">OTP</span>
+            </label>
+            <input type="text" placeholder="OTP" name="otp" class="input input-bordered bg-white text-base-100 placeholder-base-100" required />
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">New Password</span>
+            </label>
+            <input type="password" placeholder="New password" name="npass" class="input input-bordered bg-white text-base-100 placeholder-base-100" required />
+          </div>
+          </div>
+          <div class=" gap-2 flex">
+            <button class="btn btn-primary flex-1" type="submit" >Confirm</button>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+{% endblock %}

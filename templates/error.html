@@ -1,0 +1,18 @@
+{% extends "layout.html"%}
+
+{% block title %}
+   Thryve
+{% endblock %}
+
+{% block body %}
+<div class="hero bg-base-200 min-h-screen"  >
+    <div class="hero-content text-center text-white">
+      <div class="max-w-md">
+        <h1 class="text-6xl font-bold text-primary">{{status}}</h1>
+        <p class="py-6 text-primary text-2xl"  >
+           {{error}}
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

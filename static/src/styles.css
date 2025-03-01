@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+    font-family: 'gaming';
+    src: 
+         url('/static/fonts/GyrochromeVF.ttf') format('truetype');  
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gaming';
+    src: 
+         url('/static/fonts/CreatoDisplay-Light.ttf') format('truetype');  
+    font-weight: light;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gaming';
+    src: 
+         url('/static/fonts/CreatoDisplay-Thin.ttf') format('truetype');  
+    font-weight: thin;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gaming';
+    src: 
+         url('/static/fonts/CreatoDisplay-BoldItalic.ttf') format('truetype');  
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'gaming';
+    src: 
+         url('/static/fonts/CreatoDisplay-Regular.ttf') format('truetype');  
+    font-weight: normal;
+    font-style: normal;
+}

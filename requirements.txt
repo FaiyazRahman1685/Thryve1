@@ -1,0 +1,5 @@
+flask 
+cs50 
+flask_session
+flask_mail 
+

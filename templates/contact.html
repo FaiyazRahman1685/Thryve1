@@ -1,0 +1,30 @@
+{% extends "layout.html"%}
+
+{% block title %}
+    Contact us
+{% endblock %}
+
+{% block body %}
+
+<div class="flex items-center justify-center min-h-screen bg-black">
+    <div class="w-[600px] bg-black p-8 rounded-lg shadow-lg text-center">
+      
+      <!-- Heading -->
+      <h2 class="text-white text-3xl font-bold mb-6">HOW CAN WE HELP?</h2>
+      
+      <!-- Form -->
+      <form action="/contact" method="post">
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <input type="text" placeholder="Name" name="name" class="w-full p-3 bg-black text-white rounded-md border-white border" required>
+          <input type="email" placeholder="E-mail"  name="email" class="w-full p-3 bg-black text-white rounded-md border-white border" required>
+        </div>
+        
+        <textarea placeholder="Message" name="message" class="w-full p-3 bg-black text-white rounded-md border-white h-32 mb-4 border" required></textarea>
+        
+        <button class="btn btn-primary btn-wide" type="submit">Send message</button>
+      </form>
+    </div>
+  </div>
+  
+
+{% endblock %}

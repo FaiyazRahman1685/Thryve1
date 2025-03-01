@@ -1,0 +1,74 @@
+{% extends "layout.html"%}
+
+{% block title %}
+    About
+{% endblock %}
+
+{% block body %}
+<div class="relative w-full ">
+    <!-- Background Image -->
+    <img src="/static/images/About.png" 
+         class="w-full  object-cover" 
+         alt="Background Image">
+
+    <!-- Overlay Box -->
+    <div class="absolute top-1/2 right-48 transform -translate-y-1/2 bg-black bg-opacity-80 text-white  rounded-lg shadow-lg max-w-xl">
+        <h2 class="text-5xl font-bold font-custom animate__animated animate__fadeInRight">WE ARE <span class=" text-white font-custom font-bold italic text-7xl">THRYVE</span></h2>
+        <p class="mt-3 text-lg font-custom animate__slow animate__animated animate__fadeInRight">
+            THRYVE is a premium performance supplement brand committed to disrupting the overpriced and monopolized supplement market by offering high-quality, scientifically validated products.
+            Our mission is to empower athletes across all levels-ranging from begginers to seasoned professionals-with supplement they can trust. 
+        </p>
+    </div>
+</div>
+
+
+<section class="text-white body-font">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
+      <h3 class="font-custom font-bold text-4xl">OUR VISION</h3>
+        <p class="leading-relaxed text-lg mt-10 font-custom">Our vision is to become the leading performance supplement brand in Bangladesh, delivering affordable, high-quality products that make health and fitness accessible to everyone across the country. In addition, we aim to establish THRYVE as a lifestyle brand, setting the benchmark for a healthy, balanced, and prosperous way of living.</p>
+        <span class="inline-block h-1 w-10 rounded bg-primary mt-8 mb-6"></span>
+        <h2 class="text-white font-thin font-custom tracking-wider text-sm">Mufrad Ul Haque</h2>
+        <p class="text-white text-xs">Co-Founder</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="text-white body-font">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
+      <h3 class="font-custom font-bold text-4xl">OUR MISSION</h3>
+        <p class="leading-relaxed text-lg mt-10 font-custom">Our mission is to establish a dominant presence within Bangladesh's supplement industry, followed by the development of our own state-of-the-art manufacturing facility. Ultimately, we aspire to expand globally, delivering innovative and specialized supplements to redefine the standards of performance nutrition worldwide.</p>
+        <span class="inline-block h-1 w-10 rounded bg-primary mt-8 mb-6"></span>
+        <h2 class="text-white font-thin font-custom tracking-wider text-sm">Jarraf Ahmed</h2>
+        <p class="text-white text-xs" >Co-Founder</p>
+      </div>
+    </div>
+  </section>
+
+    <section class="relative w-full min-h-screen flex flex-col items-center justify-center px-6 text-center">
+        <!-- Headings (Now Lowered) -->
+        <div class="w-full max-w-5xl flex flex-col md:flex-row items-center justify-between text-white z-10 relative md:top-80">
+            <h2 class="text-2xl md:text-4xl font-custom font-normal mb-4 md:mb-0">
+                Strength of <span class="font-bold font-custom italic text-6xl">Heracles</span>
+            </h2>
+            <h2 class="text-2xl md:text-4xl font-custom font-normal">
+                Power to <span class="font-bold font-custom italic text-6xl">THRYVE</span>
+            </h2>
+        </div>
+
+        <!-- Image (Centered) -->
+        <div class="relative w-full flex justify-center my-8">
+            <img src="/static/images/Heracles.png" alt="Heracles Statue" class="max-w-xs md:max-w-lg lg:max-w-2xl object-contain" data-aos="fade-up" data-aos-duration="3000">
+        </div>
+
+        <!-- Description Text -->
+        <p class="p-16 font-custom font-thin  text-sm md:text-lg text-gray-300">
+            Heracles, also known as Hercules in Roman mythology, is a hero from Greek mythology, famous for his extraordinary strength and courage. He is the son of Zeus and Alcmene, a mortal woman. Hera, Zeus’s wife, despised him and subjected him to numerous hardships. Heracles’ legendary strength was not just a gift but the result of enduring relentless challenges and pushing beyond human limits. This spirit of resilience and unstoppable determination mirrors the core of Thryve—a brand built for those who refuse to settle and constantly strive for greatness. Just as Heracles conquered his trials with unmatched power and perseverance, Thryve empowers athletes and individuals to harness their inner strength, overcome obstacles, and achieve their highest potential. Through innovative performance supplements and gear, Thryve fuels the modern hero’s journey toward physical and mental excellence.
+        </p>
+    </section>
+
+</body>
+</html>
+
+{% endblock %}

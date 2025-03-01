@@ -1,0 +1,104 @@
+{% extends "layout.html"%}
+
+{% block title %}
+    Thryve
+{% endblock %}
+
+{% block body %}
+<div class="relative w-full  hidden md:block">
+  <!-- Background Image -->
+  <img src="/static/images/bg.png" alt="Background Image" class="w-full ">
+
+  <!-- Content -->
+  <div class="absolute inset-0 flex items-center pl-6">
+      <div class=" px-8 text-white">
+          <h1 class="text-6xl  font-custom font-bold leading-tight">
+              NO LIMITS <br> JUST THRYVE.
+          </h1>
+          <div class="mt-6 flex space-x-4">
+              <a href="/products" class="btn btn-primary  font-custom font-bold text-secondary" >
+                  Shop Now
+              </a>
+              <a href="/about" class="btn btn-secondary px-8 font-custom font-bold ">
+                  About     
+              </a>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="block md:hidden relative w-full">
+    <img src="/static/images/bgmob.png" class="w-full h-auto">
+    <div class="absolute inset-0 flex items-center  text-secondary flex-col justify-center mt-16 " >
+      <h1 class="text-3xl  font-custom font-bold leading-normal text-center">NO LIMITS <br> JUST THRYVE.</h1>
+      <div class="mt-6 flex space-x-4">
+        <a href="/products" class="btn btn-primary  font-custom font-bold text-secondary" >
+            Shop Now
+        </a>
+        <a href="/about" class="btn btn-secondary px-8 font-custom font-bold ">
+            About     
+        </a>
+    </div>
+    </div>
+</div>
+
+
+<div class="bg-black text-white py-16 px-7 flex flex-col items-center md:hidden ">
+  <h2 class="text-xl font-bold mb-8 tracking-wide font-custom ">FEATURED PRODUCT</h2>
+  <div class="flex flex-col md:flex-row items-center justify-center gap-10">
+      <!-- Product Image -->
+      <div class="bg-white p-8 rounded-lg shadow-lg">
+          <img src="/static/images/Creatine.png" alt="Creatine Monohydrate" class="w-80 h-70">
+      </div>
+      
+      <!-- Product Info -->
+      <div class="flex flex-col justify-center items-center">
+          <h3 class="text-3xl font-custom font-normal">Creatine Monohydrate</h3>
+          <p class="text-gray-400 text-lg font-custom font-thin">Research Backed Muscle Builder</p>
+          
+          <div class="flex items-center space-x-2 mt-2">
+              <span class="text-gray-500 text-2xl line-through">2399</span>
+              <span class="text-3xl font-custom font-light">1849</span>
+              <span class="text-lg font-custom font-light">BDT</span>
+          </div>
+
+          <p class="text-sm font-semibold mt-1 text-gray-400">*Promotional Offer</p>
+
+          <a href="/products" class="btn btn-primary font-custom font-bold text-secondary">
+              LEARN MORE
+          </a>
+      </div>
+  </div>
+</div>
+
+<div class="bg-black text-white py-16 px-8 hidden md:flex  flex-col items-center ">
+  <h2 class="text-2xl font-bold mb-8 tracking-wide font-custom ">FEATURED PRODUCT</h2>
+  <div class="flex flex-col md:flex-row items-center justify-center gap-10">
+      <!-- Product Image -->
+      <div class="bg-white p-8 rounded-lg shadow-lg">
+          <img src="/static/images/Product.png" alt="Creatine Monohydrate" class="">
+      </div>
+      
+      <!-- Product Info -->
+      <div class="">
+          <h3 class="text-3xl font-custom font-normal">Creatine Monohydrate</h3>
+          <p class="text-gray-400 text-lg font-custom font-thin">Research Backed Muscle Builder</p>
+          
+          <div class="flex items-center space-x-2 mt-2">
+              <span class="text-gray-500 text-2xl line-through">2399</span>
+              <span class="text-3xl font-custom font-light">1849</span>
+              <span class="text-lg font-custom font-light">BDT</span>
+          </div>
+
+          <p class="text-sm font-semibold mt-1 text-gray-400">*Promotional Offer</p>
+
+          <a href="/products" class="btn btn-primary font-custom font-bold text-secondary">
+              LEARN MORE
+          </a>
+      </div>
+  </div>
+</div>
+
+
+{% endblock %}

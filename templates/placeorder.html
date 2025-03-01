@@ -1,0 +1,67 @@
+{% extends "layout.html"%}
+
+{% block title %}
+   Checkout
+{% endblock %}
+
+{% block body%}
+<div class="min-h-screen mt-10 flex items-center justify-center bg-base-100 text-white p-6 ">
+    <div class="w-full max-w-3xl bg-gray-800 p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-4 text-center">Checkout</h2>
+
+        <!-- User Details Form -->
+         
+        <form action="/confirm" method="POST" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium">Name</label>
+                <input type="text" value={{user}} name="name" required class="w-full p-2 bg-gray-700 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium">Email</label>
+                {% if row %}
+                <input type="email" value={{row.email}} name="email" required class="w-full p-2 bg-gray-700 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500">
+                {% else %}
+                <input type="email" name="email" required class="w-full p-2 bg-gray-700 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500">
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-sm font-medium">Address</label>
+                <textarea name="address" required class="w-full p-2 bg-gray-700 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-medium">Phone</label>
+                <input type="text" name="phone" required class="w-full p-2 bg-gray-700 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="mt-6 p-4 bg-gray-700 rounded-lg">
+                <h3 class="text-lg font-semibold mb-2">Confirmed Cart Details</h3>
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-600">
+                            <th class="text-left p-2">Product</th>
+                            <th class="text-center p-2">Quantity</th>
+                            <th class="text-right p-2">Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-600">
+                            <td class="p-2">Creatine Monohydrate 300g</td>
+                            <td class="text-center p-2">{{cart.item}}</td>
+                            <td class="text-right p-2">{{cart.total}} Tk</td>
+                        </tr>
+                        <!-- More products can be added dynamically -->
+                    </tbody>
+                </table>
+                <div class="text-right font-bold text-lg mt-4">Total: {{cart.total}} Tk</div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full py-3 bg-blue-500 rounded-lg hover:bg-blue-600 text-lg font-semibold">
+                Place Order
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock body%}

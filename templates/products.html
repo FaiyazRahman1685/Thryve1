@@ -1,0 +1,284 @@
+{% extends "layout.html"%}
+
+{% block title %}
+   Products
+{% endblock %}
+{% block body %}
+<section class="text-secondary body-font overflow-hidden  flex items-center">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="lg:w-4/5 mx-auto flex flex-col lg:flex-row lg:items-center lg:gap-10">
+      <!-- Product Image -->
+      <style>
+        .switch-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(128, 128, 128, 0.5);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .switch-btn svg {
+            width: 24px;
+            height: 24px;
+            color: gray;
+        }
+        .left-btn { left: 10px; }
+        .right-btn { right: 10px; }
+    </style>
+
+    <div class="relative w-128 h-128 bg-gray-200 rounded-lg overflow-hidden animate__animated animate__slideInUp">
+        <img id="imageBox" src="/static/images/112.jpg" class="w-full h-full object-cover transition-opacity duration-500" alt="Product">
+        
+        <!-- Navigation Buttons -->
+        <button onclick="changeImage(-1)" class="switch-btn left-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+        <button onclick="changeImage(1)" class="switch-btn right-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        const images = [
+            "/static/images/112.jpg", // Replace with your actual images
+            "/static/images/11.jpg"
+        ];
+        let currentIndex = 0;
+
+        function changeImage(direction) {
+            currentIndex = (currentIndex + direction + images.length) % images.length;
+            document.getElementById("imageBox").src = images[currentIndex];
+        }
+    </script>
+      
+      <!-- Product Details -->
+      <div class="lg:w-1/2 lg:pl-10 px-5 lg:py-6 mt-6 lg:mt-0 animate__animated animate__slideInDown">
+        <h1 class="text-primary text-3xl title-font font-custom font-bold italic mb-1">Creatine Monohydrate</h1>
+        <p class="leading-relaxed font-custom font-thin">Enhanced strength.<br> Faster muscle growth. <br>  Quick recovery</p>
+        <div class="flex  flex-col items-start gap-3">
+          <div class="flex items-center space-x-2 mt-2">
+            <span class="text-gray-500 text-2xl line-through">2399</span>
+            <span class="text-3xl font-custom font-light">1849</span>
+            <span class="text-lg font-custom font-light">BDT</span>
+        </div>
+          <form class="flex gap-4" action="/buy" method="post">
+            <div class="flex items-center space-x-4">
+              <!-- Quantity Selector -->
+              <div class="flex items-center border border-gray-300 bg-white rounded-md">
+                  <button onclick="decreaseQuantity()" type="button" class="px-3 py-2 border-r text-black border-gray-300">-</button>
+                  <input id="quantity" name="amount" type="number" value="1" min="1" class="w-9 text-center text-black outline-none" readonly>
+                  <button onclick="increaseQuantity()" type="button" class="px-3 py-2 border-l text-black border-gray-300">+</button>
+              </div>
+      
+              <!-- Add to Cart Button -->
+              <button class="btn btn-primary" type="submit">
+                  ADD TO CART
+              </button>
+          </div>
+          </form>
+          <script>
+            function decreaseQuantity() {
+                let quantityInput = document.getElementById("quantity");
+                let quantity = parseInt(quantityInput.value);
+                if (quantity > 1) {
+                    quantityInput.value = quantity - 1;
+                }
+            }
+    
+            function increaseQuantity() {
+                let quantityInput = document.getElementById("quantity");
+                let quantity = parseInt(quantityInput.value);
+                quantityInput.value = quantity + 1;
+            }
+        </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  function animateNumber(element, start, end, duration) {
+      let startTime = null;
+      
+      function updateNumber(currentTime) {
+          if (!startTime) startTime = currentTime;
+          let progress = currentTime - startTime;
+          let value = Math.floor(start + (end - start) * (progress / duration));
+
+          element.textContent = value + "%";
+
+          if (progress < duration) {
+              requestAnimationFrame(updateNumber);
+          } else {
+              element.textContent = end + "%"; // Ensure it ends exactly at the target number
+          }
+      }
+
+      requestAnimationFrame(updateNumber);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+      let counter = document.getElementById("counter");
+      animateNumber(counter, 0, 10, 2500); 
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+      let counter = document.getElementById("counter2");
+      animateNumber(counter, 0, 15, 2500); 
+  });
+</script>
+
+<div class="min-h-96 flex items-center justify-center">
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl w-full text-center">
+    <div >
+        <h2 class="text-6xl font-custom font-semibold text-primary" id="counter">0</h2>
+        <p class="text-lg font-custom font-normal mt-2">INCREASE IN STRENGTH</p>
+        <p class="text-sm text-gray-400 font-custom font-light">when compared to placebo</p>
+      
+    </div>
+    <div >
+      <h2 class="text-6xl font-custom font-semibold text-primary">1.5<span class="text-3xl">KG</span></h2>
+      <p class="text-lg font-custom font-normal mt-2">INCREASE IN MUSCLE MASS</p>
+      <p class="text-sm text-gray-400 font-custom font-light">over 4-12 weeks</p>
+    
+  </div>
+    <div > 
+        <h2 class="text-6xl font-custom font-semibold text-primary" id="counter2">0</h2>
+        <p class="text-lg font-custom font-normal mt-2">IMPROVEMENT IN COGNITION</p>
+        <p class="text-sm text-gray-400 font-custom font-light">under sleep deprivation and stress</p>
+    </div>
+  </div>
+</div>
+
+
+<section class="text-secondary">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-primary sm:flex-row flex-col" >
+      <div>
+        <img src="/static/images/3.JPG" class="h-70 w-90 pr-4">
+      </div>
+      <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
+        <h2 class="text-primary text-lg font-custom font-bold mb-2">INCREASED STRENGTH</h2>
+        <p class="leading-relaxed text-base font-custom font-thin">Creatine helps you lift heavier and push harder by fueling your muscles with quick energy. It boosts strength, improves endurance, and speeds up recovery, making every rep more powerful.</p>
+        </a>
+      </div>
+    </div>
+    <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-primary sm:flex-row flex-col-reverse" >
+      <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
+        <h2 class="text-primary text-lg  font-custom font-bold mb-2">THIRD PARTY LAB TESTED</h2>
+        <p class="leading-relaxed text-base font-custom font-thin">Thryve’s Creatine is third-party lab tested for purity and quality, ensuring you get a clean, effective formula with no fillers—just science-backed performance you can trust.</p>
+        </a>
+      </div>
+      <div>
+        <img src="/static/images/4.JPG" class="h-70 w-90 pl-4">
+      </div>
+    </div>
+    <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-primary sm:flex-row flex-col" >
+      <div>
+        <img src="/static/images/2.JPG" class="h-70 w-90 pr-4">
+      </div>
+      <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
+        <h2 class="text-primary text-lg font-custom font-bold mb-2">STRONGER MUSCLE</h2>
+        <p class="leading-relaxed text-base font-custom font-thin">Creatine helps build muscle by increasing hydration, making muscles look fuller and supporting faster recovery. It also fuels muscle cells, promoting growth over time.</p>
+        </a>
+      </div>
+    </div>
+    <div class="flex items-center lg:w-3/5 mx-auto  sm:flex-row flex-col-reverse" >
+      <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
+        <h2 class="text-primary text-lg font-custom font-bold mb-2">HALAL CERTIFIED</h2>
+        <p class="leading-relaxed text-base font-custom font-thin">Thryve’s Creatine is Halal Certified, ensuring it meets strict Islamic dietary standards. Made with purity and integrity, it’s a clean, effective formula you can trust for your fitness journey.</p>
+        </a>
+      </div>
+      <div>
+        <img src="/static/images/1.JPG" class="h-70 w-90 pl-4">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class=" flex flex-col items-center px-4 py-10 space-y-4 bg-black text-white">
+  <div class="collapse collapse-arrow bg-base-200 w-full max-w-2xl">
+    <input type="checkbox" />
+    <div class="collapse-title text-lg font-custom font-normal">WHY CREATINE?</div>
+    <div class="collapse-content font-custom font-thin">
+      <p>Creatine is important for numerous functions and it can benefit longevity, strength, cognitive abilities, and the hydration status of a person. Every healthy individual should consider supplementing their creatine intake with a creatine monohydrate supplement.</p>
+    </div>
+  </div>
+
+  <div class="collapse collapse-arrow bg-base-200 w-full max-w-2xl">
+    <input type="checkbox" />
+    <div class="collapse-title text-lg font-custom font-normal">SHOULD I CYCLE CREATINE?</div>
+    <div class="collapse-content font-custom font-thin">
+      <p>Unless you cycle the amount of calories, protein, fats, and carbohydrates, you don't need to cycle off creatine because just like any other vitamin, mineral, or macronutrient, it should be an active part of your diet.</p>
+    </div>
+  </div>
+
+  <div class="collapse collapse-arrow bg-base-200 w-full max-w-2xl">
+    <input type="checkbox" />
+    <div class="collapse-title text-lg font-custom font-normal">WILL CREATINE MAKE ME GO BALD?</div>
+    <div class="collapse-content font-custom font-thin">
+      <p>This scare came from one flawed study done on rugby athletes that tested the DHT level rise on creatine but did not take into account that high-intensity physical activity also raises the same hormone. Creatine will NOT make you go bald, but if you're predisposed to androgenic alopecia, please consider consulting with a medical professional before supplementing with creatine.</p>
+    </div>
+  </div>
+
+  <div class="collapse collapse-arrow bg-base-200 w-full max-w-2xl">
+    <input type="checkbox" />
+    <div class="collapse-title text-lg font-custom font-normal">DO I NEED TO DRINK 5L WATER ON CREATINE?</div>
+    <div class="collapse-content font-custom font-thin">
+      <p>You should be hydrating appropriately irrespective of whether you're on creatine or not. Creatine is an osmolyte and tends to direct the flow of water into the skeletal muscles, which means that if you’re dehydrated while on creatine, you could be subjecting yourself to an even more dehydrated state. By no means will creatine negatively affect your hydration status; after all, it tends to have the opposite effect and can positively impact hydration and endurance by making your muscles hold more water. Just make sure you drink enough water.</p>
+    </div>
+  </div>
+</div>
+
+<section class=" flex items-center justify-center flex-col sm:flex-row gap-6 bg-black text-white px-4 overflow-hidden font-custom font-thin">
+  <div class="bg-primary text-white p-6 w-full sm:max-w-lg rounded-lg" >
+      <h2 class="text-3xl font-bold">Supplement Facts</h2>
+      
+      <p class="mt-2"><span class="font-bold">Serving size:</span> ~1 scoop (5g)</p>
+      <p><span class="font-bold">Serving per container:</span> 60</p>
+
+      <hr class="my-3 border-white">
+
+      <div class="flex justify-between font-bold">
+          <span>Amount Per Serving</span>
+          <span>%DV</span>
+      </div>
+
+      <hr class="my-1 border-white">
+
+      <div class="flex justify-between">
+          <span>Creatine Monohydrate</span>
+          <span class="font-bold">5g</span>
+      </div>
+
+      <hr class="my-3 border-white">
+      <p class="text-sm">*Daily Value (DV) not established.</p>
+  </div>
+
+  <div class="bg-black text-white p-6 w-full max-w-lg mt-6" >
+      <p class="font-bold">Suggested Use:</p>
+      <p>As a Dietary Supplement, mix 1 serving (5g) in water or juice. Cycle creatine use as follows:</p>
+      
+      <ul class="mt-2 space-y-2">
+          <li><span class="font-bold">• Maintenance:</span> Take one serving daily, drink 1/2 before and 1/2 after training.</li>
+      </ul>
+
+      <p class="mt-2">We recommend drinking twelve 250 ml glasses of water daily while using any creatine product.</p>
+
+      <p class="font-bold mt-4">Disclaimer:</p>
+      <p class="text-sm text-gray-300">
+          This product is not intended to diagnose, treat, cure, or prevent any disease. Consult your physician before use if you are pregnant, nursing, have a medical condition, or are taking any medication.
+      </p>
+  </div>
+</section>
+
+
+{% endblock %}

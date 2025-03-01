@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{{ url_for('static', filename='dist/output.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+</head>
+    <body>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+        <script>AOS.init();</script>
+
+        
+        <nav class="top-0 left-0 w-full hidden md:flex items-center justify-between p-4 bg-black bg-opacity-80 text-white fixed z-50">
+          <!-- Logo -->
+          <div class="pl-6">
+            <a href="/">
+              <img src="/static/images/white.png" alt="Logo" class="h-7 w-13">
+            </a>
+          </div>
+          
+          <!-- Navigation Links -->
+          <ul class="absolute left-1/2 transform -translate-x-1/2 flex space-x-6 uppercase font-semibold">
+              <li><a href="/" class="hover:text-gray-400 font-custom font-bold">Home</a></li>
+              <li><a href="/products" class="hover:text-gray-400 font-custom font-bold">Shop</a></li>
+              <li><a href="/about" class="hover:text-gray-400 font-custom font-bold">About</a></li>
+              <li><a href="/contact" class="hover:text-gray-400 font-custom font-bold">Contact</a></li>
+              <li><a href="#" class="hover:text-gray-400 font-custom font-bold">Policy</a></li>
+          </ul>
+          
+          <!-- Icons -->
+          <div class="flex space-x-4">
+            <div class="dropdown dropdown-end">
+              <div tabindex="0" role="button" class="btn btn-ghost btn-circle overflow-visible">
+                <div class="indicator">
+                    <svg width="24" height="24" viewBox="0 0 1110.64 964.71" class="w-6 h-6 fill-current text-white">
+                        <path fill="white" d="m891.93,270.59v-122.25c0-82.88-61.32-148.34-144.18-148.34h-389.38c-82.9,0-144.18,65.47-144.18,148.34v122.25H61.64c-35.18,0-61.64,26.14-61.64,60.96v140c0,34.82,26.46,61.3,61.64,61.3h17.41l70.01,379.61c4.17,30.64,30.3,52.26,60.97,52.26h686.07c30.66,0,56.76-21.62,61.28-52.26l70.01-379.61h17.41c35.19,0,65.84-26.48,65.84-61.3v-140c0-34.82-30.66-60.96-65.84-60.96h-152.86Zm-563.87-122.25c0-17.41,13.24-30.62,30.3-30.62h389.38c17.41,0,30.62,13.21,30.62,30.62v61.32h-450.31v-61.32Z"/>
+                    </svg>
+                    <span class="badge badge-sm indicator-item">{{cart.item}}</span>
+                </div>
+            </div>
+            
+              <div
+                tabindex="0"
+                class="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow ">
+                <div class="card-body">
+                  <span class="text-lg font-custom font-normal">{{cart.item}} Items</span>
+                  <span class="text-info font-custom font-thin">Subtotal: {{cart.total}} TK</span>
+                  <div class="card-actions">
+                    <a class="btn btn-primary btn-block" href="/cart">View cart</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="dropdown dropdown-end">
+              <div class="pr-6">
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle overflow-visible">
+                  <div class="indicator">
+                      <svg width="24" height="24" viewBox="0 0 873.78 1087.52" class="w-6 h-6 fill-current text-white">
+                          <circle cx="436.89" cy="259.32" r="259.32" fill="white"/>
+                          <path fill="white" d="m873.78,1002.92s-140,84.61-436.89,84.61S0,1002.92,0,1002.92c0,0,1.53-130.01,0-131.75,0-179.58,104.13-274.87,436.89-274.87s436.89,95.29,436.89,274.87c-1.53,1.74,0,131.75,0,131.75Z"/>
+                      </svg>
+                  </div>
+              </div>
+              
+              </div>
+              <ul
+                tabindex="0"
+                class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow font-custom font-bold" >
+                <p class="text-lg text-primary">{{user}}</p>
+                <li>
+                  <a class="justify-between">
+                    Profile
+                  </a>
+                </li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/logout">Logout</a></li>
+              </ul>
+            </div>
+          </div>
+      </nav>
+
+      
+
+      <div class="fixed top-0 left-0 w-full h-16 bg-black/80 backdrop-blur-md z-[100] flex items-center px-4 md:hidden ">
+        <div class="absolute left-2">
+          <div class="dropdown">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="white">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h7" />
+              </svg>
+            </div>
+            <ul
+              tabindex="0"
+              class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow font-custom font-bold" >
+              <li><a href="/">Home</a></li>
+              <li><a href="/products">Shop</a></li>
+              <li><a href="/about">About</a></li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a>Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="absolute left-1/2 transform -translate-x-1/2">
+          <a href="/"> <img  src="/static/images/white.png" class="w-[11rem]  h-[1.5rem]"  ></a>
+        </div>
+        <div class="flex-none absolute right-1">
+            <div class="dropdown dropdown-end">
+              <div tabindex="0" role="button" class="btn btn-ghost btn-circle overflow-visible">
+                <div class="indicator">
+                    <svg width="24" height="24" viewBox="0 0 1110.64 964.71" class="w-5 h-5 fill-current text-white -mr-10">
+                        <path fill="white" d="m891.93,270.59v-122.25c0-82.88-61.32-148.34-144.18-148.34h-389.38c-82.9,0-144.18,65.47-144.18,148.34v122.25H61.64c-35.18,0-61.64,26.14-61.64,60.96v140c0,34.82,26.46,61.3,61.64,61.3h17.41l70.01,379.61c4.17,30.64,30.3,52.26,60.97,52.26h686.07c30.66,0,56.76-21.62,61.28-52.26l70.01-379.61h17.41c35.19,0,65.84-26.48,65.84-61.3v-140c0-34.82-30.66-60.96-65.84-60.96h-152.86Zm-563.87-122.25c0-17.41,13.24-30.62,30.3-30.62h389.38c17.41,0,30.62,13.21,30.62,30.62v61.32h-450.31v-61.32Z"/>
+                    </svg>
+                </div>
+            </div>
+              <div
+                tabindex="0"
+                class="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow font-custom font-bold">
+                <div class="card-body">
+                  <span class="text-lg font-custom font-normal">{{cart.item}} Items</span>
+                  <span class="text-info font-custom font-thin">Subtotal: {{cart.total}} TK</span>
+                  <div class="card-actions">
+                    <a class="btn btn-primary btn-block" href="/cart">View cart</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="dropdown dropdown-end">
+              <div class="">
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle overflow-visible">
+                  <div class="indicator">
+                      <svg width="24" height="24" viewBox="0 0 873.78 1087.52" class="w-5 h-5 fill-current text-white ">
+                          <circle cx="436.89" cy="259.32" r="259.32" fill="white"/>
+                          <path fill="white" d="m873.78,1002.92s-140,84.61-436.89,84.61S0,1002.92,0,1002.92c0,0,1.53-130.01,0-131.75,0-179.58,104.13-274.87,436.89-274.87s436.89,95.29,436.89,274.87c-1.53,1.74,0,131.75,0,131.75Z"/>
+                      </svg>
+                  </div>
+              </div>
+              
+              </div>
+              <ul
+                tabindex="0"
+                class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow font-custom font-bold">
+                <p class="text-lg text-primary">{{user}}</p>
+                <li>
+                  <a class="justify-between">
+                    Profile
+                  </a>
+                </li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/logout">Logout</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div role="alert" class="alert alert-success bg-primary z-50 absolute top-16 left-1/2 transform -translate-x-1/2 w-full max-w-md shadow-lg p-4 md:p-6 text-sm md:text-base">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <span>{{message}}</span>
+    </div>    
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<script>
+  setTimeout(() => {
+    document.querySelector(".alert").classList.add("hidden");
+  }, 2500); // Hides after 3 seconds
+</script>
+
+        {% block body %}{% endblock %}
+
+        <footer class="footer text-secondary flex flex-col items-center gap-4 p-4 w-full">
+          <!-- Logo -->
+          <aside class="flex flex-col items-center gap-2">
+            <img src="/static/images/white.png" alt="Logo" class="h-7 w-13">
+          </aside>
+          
+          <!-- Social Media Icons (Centered & Stacked) -->
+          <div class="flex gap-4 justify-center">
+            <a href="https://www.instagram.com/thryveperformance/" target="_blank">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61573003829613" target="_blank">
+              <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/" target="_blank">
+              <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                <path d="M22.54 6.42a2.77 2.77 0 00-1.95-1.95C18.4 4 12 4 12 4s-6.4 0-8.59.47A2.77 2.77 0 001.46 6.42 28.7 28.7 0 001 12a28.7 28.7 0 00.46 5.58 2.77 2.77 0 001.95 1.95C5.6 20 12 20 12 20s6.4 0 8.59-.47a2.77 2.77 0 001.95-1.95A28.7 28.7 0 0023 12a28.7 28.7 0 00-.46-5.58zM10 15.5V8.5l6 3.5z"></path>
+              </svg>
+            </a>
+          </div>
+        </footer>
+         
+    </body>
+</html>

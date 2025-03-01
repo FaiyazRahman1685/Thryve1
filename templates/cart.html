@@ -1,0 +1,80 @@
+{% extends "layout.html"%}
+
+{% block title %}
+   Cart
+{% endblock %}
+
+{% block body%}
+<div class="min-h-screen flex items-center justify-center bg-black text-white p-6 animate__animated animate__slideInUp">
+    <div class="w-full max-w-4xl p-6 rounded-lg shadow-lg">
+        <div class="max-sm:w-full max-sm:flex max-sm:justify-center">
+            <form action="/cart" method="post">
+                <table class="w-full border-collapse">
+                    <!-- Table Head -->
+                    <thead>
+                        <tr class="bg-primary text-black">
+                            <th class="p-3 text-left">Product</th>
+                            <th class="p-3 text-center">Quantity</th>
+                            <th class="p-3 text-right">Total Price</th>
+                        </tr>
+                    </thead>
+                    <!-- Table Body -->
+                    <tbody>
+                        <tr class="border-b border-gray-700 hover:bg-gray-800">
+                            <td class="p-3 text-blue-400 font-bold">Creatine Monohydrate 300g</td>
+                            <td class="p-3 text-center">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <button id="decrease" type="button" class="px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">-</button>
+                                    <input  id="quantity" type="text" name="quantity" value={{cart.item}}  class="text-lg font-bold w-12 text-center bg-transparent border-none outline-none quantity" readonly>
+                                    <button id="increase"  type="button" class="px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">+</button>
+                                </div>
+                            </td>
+                            <td id="total-price" class="p-3 text-right font-bold">{{cart.total}} Tk</td>
+                        </tr>
+                        <!-- Dynamically add more products here -->
+                    </tbody>
+                </table>
+                <!-- Cart Actions -->
+                <div class="flex justify-between mt-6">
+                    <button type="submit" name="action" value="save" class="btn btn-primary">Save</button>
+                    <button  type="submit" name="action" value="clear" class="btn btn-primary">Clear Cart</button>
+                    <button type="submit" name="action" value="ok" class="btn btn-primary">Proceed to Checkout</button>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const unitPrice = parseInt(1849);
+        const quantityInput = document.getElementById("quantity");
+        const totalPrice = document.getElementById("total-price");
+        const increaseBtn = document.getElementById("increase");
+        const decreaseBtn = document.getElementById("decrease");
+    
+        function updateTotal() {
+            let quantity = parseInt(quantityInput.value);
+            totalPrice.textContent = (unitPrice * quantity) + " Tk";
+        }
+    
+        increaseBtn.addEventListener("click", () => {
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+            updateTotal();
+        });
+    
+        decreaseBtn.addEventListener("click", () => {
+            if (quantityInput.value > 0) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+                updateTotal();
+            }
+        });
+    
+        quantityInput.addEventListener("input", updateTotal);
+    });
+    </script>
+
+
+
+{% endblock body%}

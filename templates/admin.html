@@ -1,0 +1,236 @@
+{% extends "layout.html"%}
+
+{% block title %}
+    Thryve
+{% endblock %}
+
+{% block body %}
+
+
+<section class="text-secondary body-font min-h-screen flex items-center flex-col justify-center">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="flex flex-wrap -m-4 text-center">
+        <div class="p-4 sm:w-1/4 w-1/2">
+          <h2 class="title-font font-medium sm:text-4xl text-3xl ">{{stock.stock}}</h2>
+          <p class="leading-relaxed">STOCK LEFT</p>
+        </div>
+        <div class="p-4 sm:w-1/4 w-1/2">
+          <h2 class="title-font font-medium sm:text-4xl text-3xl ">{{stock.active_orders}}</h2>
+          <p class="leading-relaxed">ACTIVE ORDERS</p>
+        </div>
+        <div class="p-4 sm:w-1/4 w-1/2">
+          <h2 class="title-font font-medium sm:text-4xl text-3xl ">{{stock.completed_orders}}</h2>
+          <p class="leading-relaxed">COMPLETED ORDERS</p>
+        </div>
+        <div class="p-4 sm:w-1/4 w-1/2">
+          <h2 class="title-font font-medium sm:text-4xl text-3xl ">{{stock.shipped_orders}}</h2>
+          <p class="leading-relaxed">ORDERS SHIPPED</p>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center justify-center gap-10 p-6">
+        <form class="flex gap-4" action="/editstock" method="post">
+            <input type="number" min="1"  name="amount" placeholder="Enter amount" class="input input-bordered input-info w-full bg-secondary text-base-100 placeholder-base-100 max-w-xs" />
+            <button class="btn btn-primary px-6">Edit stock</button> 
+          </form>
+    </div>
+       
+
+    <div role="tablist" class="tabs tabs-lifted w-full">
+      <input type="radio" name="my_tabs_2" role="tab" class="tab text-white [--tab-bg:#2eade3] [--tab-border-color:#2eade3] px-6 py-3 h-full sm:w-auto" aria-label="Current Orders" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-primary rounded-box p-6">
+        <div class="overflow-x-auto w-full">
+          <table class="table">
+            <thead class="text-lg">
+              <tr>
+                <th>ORDER ID</th>
+                <td>PRODUCT NAME</td>
+                <td>CUSTOMER NAME</td>
+                <td>EMAIL</td>
+                <td>PHONE</td>
+                <td>ADDRESS</td>
+                <td>DATE AND TIME</td>
+                <td>QUANTITY</td>
+                <td>BILL</td>
+                <td>STATUS</td>
+                <td>ACTION</td>
+  
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in row %}
+              <tr class="text-lg">
+              <form action="/action" method="post" >
+                  <input type="hidden" name="id" value="{{ row.id }}">
+                  <th>{{row.order_number}}</th>
+                  <td>{{row.product_name}}</td>
+                  <td>{{row.customer_name}}</td>
+                  <td>{{row.email}}</td>
+                  <td>{{row.phone}}</td>
+                  <td>{{row.address}}</td>
+                  <td>{{row.date_time}}</td>
+                  <td>{{row.quantity}}</td>
+                  <td>{{row.bill}}</td>
+                  <td><select class="text-black" name="action">
+                    <option value="shipping">Shipping</option>
+                    <option value="delivered">Delivered</option>
+                    <option selected value="pending">Pending</option>
+                    <option value="remove">Remove</option>
+                  </select>
+                </td>
+                  <td><button class="btn btn-primary" type="submit"> Change</button></td>
+              </form>
+              </tr>
+              {% endfor %}
+          </table>
+        </div>
+      </div>
+    
+      <input
+      type="radio"
+      name="my_tabs_2"
+      role="tab"
+      class="tab text-white [--tab-bg:#2eade3] [--tab-border-color:#2eade3] px-6 py-3 h-full  sm:w-auto"
+      aria-label="Shipping Orders"
+      checked="checked" />
+    <div role="tabpanel" class="tab-content bg-base-100 border-primary rounded-box p-6">
+      <div class="overflow-x-auto w-full">
+        <table class="table">
+          <thead class="text-lg">
+            <tr>
+              <th>ORDER ID</th>
+              <td>PRODUCT NAME</td>
+              <td>CUSTOMER NAME</td>
+              <td>EMAIL</td>
+              <td>PHONE</td>
+              <td>ADDRESS</td>
+              <td>DATE AND TIME</td>
+              <td>QUANTITY</td>
+              <td>BILL</td>
+              <td>STATUS</td>
+              <td>ACTION</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row4 in row4 %}
+            <tr class="text-lg">
+            <form action="/action" method="post" >
+                <input type="hidden" name="id" value="{{ row4.id }}">
+                <th>{{row4.order_number}}</th>
+                <td>{{row4.product_name}}</td>
+                <td>{{row4.customer_name}}</td>
+                <td>{{row4.email}}</td>
+                <td>{{row4.phone}}</td>
+                <td>{{row4.address}}</td>
+                <td>{{row4.date_time}}</td>
+                <td>{{row4.quantity}}</td>
+                <td>{{row4.bill}}</td>
+                <td><select class="text-black" name="action">
+                  <option selected value="shipping">Shipping</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="pending">Pending</option>
+                  <option value="remove">Remove</option>
+                </select>
+              </td>
+                <td><button class="btn btn-primary" type="submit" >Change</button></td>
+            </form>
+            </tr>
+            {% endfor %}
+        </table>
+      </div>
+    </div>
+
+      <input
+        type="radio"
+        name="my_tabs_2"
+        role="tab"
+        class="tab text-white [--tab-bg:#2eade3] [--tab-border-color:#2eade3] px-6 py-3 h-full  sm:w-auto"
+        aria-label="Completed Orders"
+        checked="checked" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-primary rounded-box p-6">
+        <div class="overflow-x-auto w-full">
+          <table class="table">
+            <thead class="text-lg">
+              <tr>
+                <th>ORDER ID</th>
+                <td>PRODUCT NAME</td>
+                <td>CUSTOMER NAME</td>
+                <td>EMAIL</td>
+                <td>PHONE</td>
+                <td>ADDRESS</td>
+                <td>DATE AND TIME</td>
+                <td>QUANTITY</td>
+                <td>BILL</td>
+                <td>STATUS</td>
+                <td>ACTION</td>
+  
+              </tr>
+            </thead>
+            <tbody>
+              {% for row2 in row2 %}
+              <tr class="text-lg">
+                <form action="/action" method="post" >
+                  <input type="hidden" name="id" value="{{ row2.id }}">
+                  <th>{{row2.order_number}}</th>
+                  <td>{{row2.product_name}}</td>
+                  <td>{{row2.customer_name}}</td>
+                  <td>{{row2.email}}</td>
+                  <td>{{row2.phone}}</td>
+                  <td>{{row2.address}}</td>
+                  <td>{{row2.date_time}}</td>
+                  <td>{{row2.quantity}}</td>
+                  <td>{{row2.bill}}</td>
+                  <td>
+                    <select class="text-black" name="action">
+                      <option value="shipping">Shipping</option>
+                      <option selected value="delivered">Delivered</option>
+                      <option value="pending">Pending</option>
+                      <option value="remove">Remove</option>
+                    </select>
+                  </td>
+                  <td><button class="btn btn-primary" type="submit"> Change</button></td>
+                </form>
+              </tr>
+              {% endfor %}
+          </table>
+        </div>
+      </div>
+    
+      <input type="radio" name="my_tabs_2" role="tab" class="tab text-white [--tab-bg:#2eade3] [--tab-border-color:#2eade3] px-6 py-3 h-full  sm:w-auto" aria-label="Messages" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-primary rounded-box p-6">
+        <div class="overflow-x-auto w-full">
+          <table class="table">
+            <thead class="text-lg">
+              <tr>
+                <th>Name</th>
+                <td>Messages</td>
+                <td>Email</td>
+                <td>Remove</td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row3 in row3 %}
+              <tr class="text-lg">
+                <form action="/action" method="post">
+                  <input type="hidden" name="id" value="{{ row3.id }}">
+                  <th>{{row3.name}}</th>
+                  <td>{{row3.message}}</td>
+                  <td>{{row3.email}}</td>
+                  <td> <button class="btn btn-primary" name="action" value="removemsg" type="submit"> Remove</button></td>
+                </form>
+              </tr>
+              {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    
+  </section>
+
+
+{% endblock %}
