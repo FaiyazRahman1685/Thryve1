@@ -28,7 +28,7 @@
     </style>
 
     <div class="relative w-128 h-128 bg-gray-200 rounded-lg overflow-hidden animate__animated animate__slideInUp">
-        <img id="imageBox" src="/static/images/WEB_1.png" class="w-[500px] h-[500px] object-cover transition-opacity duration-500" alt="Product">
+        <img id="imageBox" src="/static/images/WEB_1.png" class="w-96 h-96 md:w-[500px] md:h-[500px] object-cover transition-opacity duration-500" alt="Product">
         
         <!-- Navigation Buttons -->
         <button onclick="changeImage(-1)" class="switch-btn left-btn">
@@ -59,14 +59,15 @@
       
       <!-- Product Details -->
       <div class="lg:w-1/2 lg:pl-10 px-5 lg:py-6 mt-6 lg:mt-0 animate__animated animate__slideInDown">
-        <h1 class="text-primary text-3xl title-font font-custom font-bold italic mb-1">Creatine Monohydrate</h1>
-        <p class="leading-relaxed font-custom font-thin">Research backed muscle builder</p>
+        <h1 class="text-white text-5xl title-font font-custom font-normal mb-1">Creatine Monohydrate</h1>
+        <p class="text-gray-300 text-lg font-custom font-thin">Research backed muscle builder</p>
         <div class="flex  flex-col items-start gap-3">
           <div class="flex items-center space-x-2 mt-2">
-            <span class="text-gray-500 text-2xl line-through">2399</span>
-            <span class="text-3xl font-custom font-light">1849</span>
-            <span class="text-lg font-custom font-light">BDT</span>
+            <span class="text-gray-500 text-4xl line-through">2399</span>
+            <span class="text-4xl font-custom font-light">1849</span>
+            <span class="text-2xl font-custom font-normal">BDT</span>
         </div>
+        <p class="text-lg font-custom font-bold text-white">*Promotional Offer</p>
           <form class="flex gap-4" action="/buy" method="post">
             <div class="flex items-center space-x-4">
               <!-- Quantity Selector -->
@@ -82,6 +83,16 @@
               </button>
           </div>
           </form>
+          <p class="text-sm font-custom font-thin text-gray-300 mt-6">We combines simplicity and trust with our 100% pure Creatine Monohydrate. Lab-tested for safety and crafted with care, this supplement ensures consistent results for gym enthusiasts, athletes, and fitness beginners alike.</p>
+          <div class="collapse collapse-arrow w-full max-w-2xl border-t-white border-b-white border">
+            <input type="checkbox" />
+            <div class="collapse-title text-lg font-custom font-normal">Third Party Test Report</div>
+            <div class="collapse-content font-custom font-thin">
+              <a href="/static/images/own.png" download class="btn btn-primary">
+                Download Report
+            </a>
+            </div>
+          </div>
           <script>
             function decreaseQuantity() {
                 let quantityInput = document.getElementById("quantity");
@@ -164,7 +175,7 @@
   <div class="container px-5 py-24 mx-auto">
     <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-primary sm:flex-row flex-col" >
       <div>
-        <img src="/static/images/3.JPG" class="h-70 w-90 pr-4">
+        <img src="/static/images/Boosts_Strength.png" class="h-70 w-90 pr-4">
       </div>
       <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
         <h2 class="text-primary text-lg font-custom font-bold mb-2">INCREASED STRENGTH</h2>
@@ -179,12 +190,12 @@
         </a>
       </div>
       <div>
-        <img src="/static/images/4.JPG" class="h-70 w-90 pl-4">
+        <img src="/static/images/p.png" class="h-70 w-90 pl-4">
       </div>
     </div>
     <div class="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-10 border-primary sm:flex-row flex-col" >
       <div>
-        <img src="/static/images/2.JPG" class="h-70 w-90 pr-4">
+        <img src="/static/images/Builds_Muscle.png" class="h-70 w-90 pr-4">
       </div>
       <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
         <h2 class="text-primary text-lg font-custom font-bold mb-2">STRONGER MUSCLE</h2>
@@ -199,7 +210,7 @@
         </a>
       </div>
       <div>
-        <img src="/static/images/12.png" class="h-70 w-90 pl-4">
+        <img src="/static/images/Halal_Certified.png" class="h-70 w-90 pl-4">
       </div>
     </div>
   </div>
