@@ -182,10 +182,22 @@
 <script>
   setTimeout(() => {
     document.querySelector(".alert").classList.add("hidden");
-  }, 2500); // Hides after 3 seconds
+  }, 2500); 
 </script>
 
-        {% block body %}{% endblock %}
+<div class="min-h-screen flex items-center justify-center"  id="preloader">
+  <span class="loading loading-infinity loading-lg text-primary"></span>
+</div>
+<div style="display: none;" id="content">
+  {% block body %}{% endblock %}
+</div>
+
+<script>
+  window.addEventListener("load", function () {
+      document.getElementById("preloader").style.display = "none";
+      document.getElementById("content").style.display = "block";
+  });
+</script>
 
         <footer class="footer text-secondary flex flex-col items-center gap-4 p-4 w-full">
           <!-- Logo -->
