@@ -157,11 +157,7 @@ def cart():
 
 @app.route("/placeorder")
 def placeorder():
-     row= db.execute("select * from users where name=?", session["user"])
-     if len(row)!=0:
-          return render_template("placeorder.html" , row=row[0])
-
-     return render_template("placeorder.html" , row=row)
+     return render_template("placeorder.html")
 
 
 @app.route("/confirm", methods=["GET", "POST"])
