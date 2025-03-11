@@ -44,18 +44,27 @@
     </div>
 
     <script>
-        const images = [
-            "/static/images/WEB_1.png", // Replace with your actual images
-            "/static/images/WEB_2-min.png",
-            "/static/images/WEB_3-min.png"
-        ];
-        let currentIndex = 0;
-
-        function changeImage(direction) {
-            currentIndex = (currentIndex + direction + images.length) % images.length;
-            document.getElementById("imageBox").src = images[currentIndex];
-        }
-    </script>
+      const images = [
+          "/static/images/WEB_1.png", 
+          "/static/images/WEB_2-min.png",
+          "/static/images/WEB_3-min.png"
+      ];
+      let currentIndex = 0;
+  
+      function preloadImages() {
+          images.forEach((src) => {
+              const img = new Image();
+              img.src = src;
+          });
+      }
+  
+      function changeImage(direction) {
+          currentIndex = (currentIndex + direction + images.length) % images.length;
+          document.getElementById("imageBox").src = images[currentIndex];
+      }
+  
+      window.onload = preloadImages;
+  </script>
       
       <!-- Product Details -->
       <div class="lg:w-1/2 lg:pl-10 px-5 lg:py-6 mt-6 lg:mt-0 animate__animated animate__slideInDown">
