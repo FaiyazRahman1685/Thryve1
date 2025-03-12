@@ -1557,14 +1557,6 @@ input.tab:checked + .tab-content,
   background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
 }
 
-.alert-success {
-  border-color: var(--fallback-su,oklch(var(--su)/0.2));
-  --tw-text-opacity: 1;
-  color: var(--fallback-suc,oklch(var(--suc)/var(--tw-text-opacity)));
-  --alert-bg: var(--fallback-su,oklch(var(--su)/1));
-  --alert-bg-mix: var(--fallback-b1,oklch(var(--b1)/1));
-}
-
 .btm-nav > *:where(.active) {
   border-top-width: 2px;
   --tw-bg-opacity: 1;
@@ -2945,6 +2937,10 @@ details.collapse summary::-webkit-details-marker {
   margin-top: 2rem;
 }
 
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
 .block {
   display: block;
 }
@@ -3386,10 +3382,6 @@ details.collapse summary::-webkit-details-marker {
 
 .fill-current {
   fill: currentColor;
-}
-
-.stroke-current {
-  stroke: currentColor;
 }
 
 .object-contain {
@@ -3909,20 +3901,12 @@ details.collapse summary::-webkit-details-marker {
     height: 8rem;
   }
 
-  .md\:h-6 {
-    height: 1.5rem;
-  }
-
   .md\:h-\[500px\] {
     height: 500px;
   }
 
   .md\:w-32 {
     width: 8rem;
-  }
-
-  .md\:w-6 {
-    width: 1.5rem;
   }
 
   .md\:w-\[500px\] {

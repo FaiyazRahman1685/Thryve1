@@ -47,9 +47,14 @@
                             <td class="text-right p-2">{{cart.total}} Tk</td>
                         </tr>
                         <!-- More products can be added dynamically -->
+                         <tr>
+                            <td class="p-2"> Shipping Fee</td>
+                            <td class="text-center p-2"> </td>
+                            <td class="text-right p-2">100 Tk</td>
+                         </tr>
                     </tbody>
                 </table>
-                <div class="text-right font-bold text-lg mt-4">Total: {{cart.total}} Tk</div>
+                <div class="text-right font-bold text-lg mt-4">Total: {{cart.total +100}} Tk</div>
             </div>
 
             <!-- Submit Button -->
