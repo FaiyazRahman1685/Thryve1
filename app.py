@@ -143,12 +143,16 @@ def cart():
           stock = db.execute("select * from stock")
           if action == "clear":
                session["cart"]["item"]  = 0
+               flash("Cart cleared", "success")
                return redirect("/cart")
           if int(amount) >  stock[0]["stock"]:
                flash("We dont have that much stock!!", "success")
                return redirect("/cart")
           if action == "save":
                session["cart"]["item"]  = int(amount)
+               flash("Cart saved", "success")
+          if action == "ok" and int(amount) == 0:
+               flash("Can't proceed with 0 items on cart", "error")
           if action == "ok" and int(amount)>0:
                session["cart"]["item"]  = int(amount)
                return redirect("/placeorder")
