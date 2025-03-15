@@ -76,7 +76,7 @@ def login():
                if rows[0]["password"]==password:
                     session["user"] = username
                     flash("Your are logged in!", "success")
-                    return redirect("/")
+                    return redirect("/admin")
                
           if action == "forgetpass":
                session.clear()
@@ -99,11 +99,12 @@ def login():
                  
         return render_template("login.html")
 
-@app.route("/logout")
+@app.route("/logout", methods=["GET", "POST"])
 def logout():
-     session.clear()
-     flash("You are logged out", "success")
-     return redirect("/") 
+     if request.method == "POST":
+          session.clear()
+          flash("You are logged out", "success")
+          return redirect("/") 
 
 @app.route("/products")
 def products():
@@ -171,6 +172,8 @@ def confirm():
           if int(session["cart"]["item"]) >  stock[0]["stock"]:
                flash("We dont have that much stock!!", "success")
                return redirect("/")
+          if  int(session["cart"]["item"]) == 0:
+               flash("Can't proceed with 0 items on cart", "error")
           subject = "Order Confirmation"
           email = request.form.get("email")
           name = request.form.get("name")
