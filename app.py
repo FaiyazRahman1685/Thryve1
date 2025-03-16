@@ -2,10 +2,10 @@ from flask import session,Flask,render_template,request,redirect,flash
 from cs50 import SQL
 from flask_session import Session
 from flask_mail import Mail, Message
-from datetime import datetime
 import random
 import os
-
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo 
 
 app = Flask(__name__)
 
@@ -178,8 +178,10 @@ def confirm():
           email = request.form.get("email")
           name = request.form.get("name")
           address = request.form.get("address")
-          order_day = datetime.now().strftime("%d-%m-%Y")
-          order_time = datetime.now().strftime("%d-%m-%Y %H:%M:%S" )
+          utc_time = datetime.now(timezone.utc)
+          gmt6_time = utc_time.astimezone(ZoneInfo("Asia/Dhaka"))
+          order_day = gmt6_time.strftime("%d-%m-%Y")
+          order_time = gmt6_time.strftime("%d-%m-%Y %H:%M:%S" )
           phone = request.form.get("phone")
           order_number = order_no()
           try:
