@@ -186,13 +186,13 @@ def confirm():
           order_number = order_no()
           try:
                msg = Message(subject, recipients=[email])
-               msg.html = render_template("email.html", item=session["cart"]["item"], price=session["cart"]["total"], total=int(session["cart"]["total"])+100,name=name, time=order_day ,id=order_number,address=address)
+               msg.html = render_template("email.html", name=name, time=order_day ,id=order_number,address=address)
                mail.send(msg)
           except Exception:
                return render_template("error.html",error="could not send email to " + email, status="Error!")
 
      db.execute("insert into orders(product_name,customer_name,email,address,date_time,status,phone,quantity,bill,order_number) values(?,?,?,?,?,?,?,?,?,?)", 
-                     "Creatine",name,email,address,order_time, "pending",phone,session["cart"]["item"],session["cart"]["total"], order_number)
+                     "Creatine",name,email,address,order_time, "pending",phone,session["cart"]["item"],session["cart"]["total"]+100, order_number)
      db.execute("update stock set stock= stock-?" , session["cart"]["item"])
      flash("Your receipt has been sent to " + email, "success")
      return redirect("/")
