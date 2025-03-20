@@ -6,8 +6,10 @@ import random
 import os
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo 
+from flask_compress import Compress
 
 app = Flask(__name__)
+Compress(app)
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com' 
 app.config['MAIL_PORT'] = 587
