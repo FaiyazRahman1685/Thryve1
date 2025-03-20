@@ -1,4 +1,4 @@
-from flask import session,Flask,render_template,request,redirect,flash
+from flask import session,Flask,render_template,request,redirect,flash,make_response
 from cs50 import SQL
 from flask_session import Session
 from flask_mail import Mail, Message
@@ -25,6 +25,11 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 db = SQL("sqlite:///users.db")
+
+@app.after_request
+def add_cache_headers(response):
+    response.headers["Cache-Control"] = "public, max-age=31536000" 
+    return response
 
 def order_no():
      while True:
