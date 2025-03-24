@@ -54,10 +54,10 @@ def download_csv():
      return response
 
 
-@app.after_request
-def add_cache_headers(response):
-    response.headers["Cache-Control"] = "public, max-age=31536000" 
-    return response
+# @app.after_request
+# def add_cache_headers(response):
+#     response.headers["Cache-Control"] = "public, max-age=31536000" 
+#     return response
 
 def order_no():
      while True:
