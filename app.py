@@ -65,18 +65,17 @@ def order_no():
         existing = db.execute("select * from orders where order_number = ?", order_id)
         if not existing:
              return order_id
+        
+@app.before_request
+def ensure_session_defaults():
+    session.setdefault("user", "guest")
+    session.setdefault("cart", {"item": 0, "total": 0})
+    session["cart"]["total"] = int(session["cart"]["item"]) * 1849  # Update total
+
 
 @app.context_processor
 def inject_globals():
-     if "user" not in session:
-          session["user"] = "guest"
-
-     if "cart" not in session:
-        session["cart"] = {"item": 0 , "total": 0}
-        
-     session["cart"]["total"] = int(session["cart"]["item"]) * 1849
-    
-     return {"user": session["user"], "cart": session["cart"]}
+    return {"user": session["user"], "cart": session["cart"]}
     
 
 @app.route("/", methods=["GET", "POST"])
