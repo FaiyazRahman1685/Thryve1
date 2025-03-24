@@ -1,9 +1,11 @@
-from flask import session,Flask,render_template,request,redirect,flash,make_response
+from flask import session,Flask,render_template,request,redirect,flash,Response
 from cs50 import SQL
 from flask_session import Session
 from flask_mail import Mail, Message
 import random
 import os
+import csv
+import io
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo 
 from flask_compress import Compress
@@ -25,6 +27,32 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 db = SQL("sqlite:///users.db")
+
+@app.route('/download_csv', methods=["GET", "POST"])
+def download_csv():
+    # Query data
+    if request.method == "POST":
+     rows = db.execute("SELECT * FROM orders")
+
+     # Create an in-memory file
+     output = io.StringIO()
+     writer = csv.writer(output)
+
+     # Write header row (column names)
+     if rows:
+          writer.writerow(rows[0].keys())
+
+     # Write data rows
+     for row in rows:
+          writer.writerow(row.values())
+
+     # Create a response object
+     output.seek(0)
+     response = Response(output.getvalue(), content_type="text/csv")
+     response.headers["Content-Disposition"] = "attachment; filename=data.csv"
+     
+     return response
+
 
 @app.after_request
 def add_cache_headers(response):
