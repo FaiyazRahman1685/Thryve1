@@ -98,30 +98,29 @@ def login():
           password = request.form.get("password")
           email = request.form.get("email")
           if action == "reg":
-               session.clear()
                rows = db.execute("select * from users where name=?", username)
                if len(rows) != 0:
                     return render_template("error.html", error="username already exists" , status="Error!")
                if not password:
                     return render_template("error.html",error="Please type in a password" , status="Error!")
                db.execute("insert into users(name,email,password) values(?,?,?)", username,email,password)
+               session.clear()
                session["user"] = username
                return redirect("/")
 
           if action == "login":
-               session.clear()
                rows = db.execute("SELECT * FROM users WHERE name = ?", username)
                if len(rows) != 1:
                     return render_template("error.html",error="username doesn't exist" , status="Error!")
                if rows[0]["password"] != password:
                     return render_template("error.html",error="wrong password" , status="Error!")
                if rows[0]["password"]==password:
+                    session.clear()
                     session["user"] = username
                     flash("Your are logged in!", "success")
                     return redirect("/admin")
                
           if action == "forgetpass":
-               session.clear()
                rows = db.execute("select * from users where name=?", username)
                if len(rows) !=1:
                     return render_template("error.html",error="username is not registered" , status="Error!")
@@ -162,6 +161,7 @@ def verifyotp():
                return render_template("error.html", error="OTP doesn't match" , status="Error!")
           if int(otp) == session["otp"]:
                db.execute("update users set password=? where name=?" , npass,session["tempname"])
+               flash("Password changed", "success")
                session.clear()
                return redirect("/login")
 
