@@ -17,11 +17,7 @@
 
 <section class="text-secondary body-font min-h-screen flex items-center flex-col justify-center">
     <div class="container px-5 py-24 mx-auto">
-      <div class="flex flex-wrap -m-4 text-center">
-        <div class="p-4 sm:w-1/4 w-1/2">
-          <h2 class="title-font font-medium sm:text-4xl text-3xl ">{{stock.stock}}</h2>
-          <p class="leading-relaxed">STOCK LEFT</p>
-        </div>
+      <div class="flex flex-wrap text-center justify-center">
         <div class="p-4 sm:w-1/4 w-1/2">
           <h2 class="title-font font-medium sm:text-4xl text-3xl ">{{stock.active_orders}}</h2>
           <p class="leading-relaxed">ACTIVE ORDERS</p>
@@ -37,10 +33,6 @@
       </div>
     </div>
     <div class="flex items-center justify-center gap-10 p-6">
-        <form class="flex gap-4" action="/editstock" method="post">
-            <input type="number" min="1"  name="amount" placeholder="Enter amount" class="input input-bordered input-info w-full bg-secondary text-base-100 placeholder-base-100 max-w-xs" />
-            <button class="btn btn-primary px-6">Edit stock</button> 
-          </form>
           <form class="flex gap-4" action="/logout" method="post">
             <button class="btn btn-primary px-6">Logout</button> 
           </form>
@@ -237,6 +229,46 @@
           </table>
         </div>
       </div>
+
+      <input type="radio" name="my_tabs_2" role="tab" class="tab text-white [--tab-bg:#2eade3] [--tab-border-color:#2eade3] px-6 py-3 h-full  sm:w-auto" aria-label="Products" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-primary rounded-box p-6">
+        <div class="overflow-x-auto w-full">
+          <table class="table">
+            <thead class="text-lg">
+              <tr>
+                <th>Name</th>
+                <td>stock</td>
+                <td>Edit stock</td>
+                <td>price</td>
+                <td>Edit price</td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row5 in row5 %}
+              <tr class="text-lg">
+                  <td>{{row5.name}}</td>
+                  <td>{{row5.stock}}</td>
+                  <td>
+                    <form class="flex gap-4" action="/editstock" method="post">
+                    <input type="number" min="1"  name="amount" placeholder="Enter amount" class="input input-bordered input-info bg-secondary text-base-100 placeholder-base-100 max-w-xs" />
+                    <input type="hidden" name="id" value="{{ row5.name }}">
+                    <button class="btn btn-primary px-6" name="action" value="editstock">Edit stock</button> 
+                  </form>
+                </td>
+                  <td>{{row5.price}}</td>
+                  <td>
+                    <form class="flex gap-4" action="/editstock" method="post">
+                      <input type="number" min="1"  name="amount" placeholder="Enter amount" class="input input-bordered input-info bg-secondary text-base-100 placeholder-base-100 max-w-xs" />
+                       <input type="hidden" name="id" value="{{ row5.name }}">
+                      <button class="btn btn-primary px-6" name="action" value="editprice">Edit price</button> 
+                    </form>
+                  </td>
+              </tr>
+              {% endfor %}
+          </table>
+        </div>
+      </div>
+      
     </div>
 
 

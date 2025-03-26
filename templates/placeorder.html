@@ -41,11 +41,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for item in cart["items"] %}
+                        {% if cart.amounts[loop.index0] >0 %}
                         <tr class="border-b border-gray-600">
-                            <td class="p-2">Creatine Monohydrate 300g</td>
-                            <td class="text-center p-2">{{cart.item}}</td>
-                            <td class="text-right p-2">{{cart.total}} Tk</td>
+                            <td class="p-2">{{item}}</td>
+                            <td class="text-center p-2">{{cart.amounts[loop.index0]}}</td>
+                            <td class="text-right p-2">{{cart.amounts[loop.index0]*cart.price[loop.index0]}} Tk</td>
                         </tr>
+                        {% endif %}
+                        {% endfor %}                                                       
                         <!-- More products can be added dynamically -->
                          <tr>
                             <td class="p-2"> Shipping Fee</td>

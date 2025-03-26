@@ -8,7 +8,7 @@
 <div class="min-h-screen flex items-center justify-center bg-black text-white p-6 animate__animated animate__slideInUp">
     <div class="w-full max-w-4xl p-6 rounded-lg shadow-lg">
         <div class="max-sm:w-full max-sm:flex max-sm:justify-center">
-            <form action="/cart" method="post">
+            <form action="/cart" method="post" id="cart-form">
                 <table class="w-full border-collapse">
                     <!-- Table Head -->
                     <thead>
@@ -20,25 +20,29 @@
                     </thead>
                     <!-- Table Body -->
                     <tbody>
+                        {% for amount in cart.amounts %}
+                        {% if amount >0 %}
                         <tr class="border-b border-gray-700 hover:bg-gray-800">
-                            <td class="p-3 text-blue-400 font-bold">Creatine Monohydrate 300g</td>
+                            <td class="p-3 text-blue-400 font-bold">{{cart["items"][loop.index0]}}</td>
                             <td class="p-3 text-center">
                                 <div class="flex items-center justify-center space-x-2">
-                                    <button id="decrease" type="button" class="px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">-</button>
-                                    <input  id="quantity" type="text" name="quantity" value={{cart.item}}  class="text-lg font-bold w-12 text-center bg-transparent border-none outline-none quantity" readonly>
-                                    <button id="increase"  type="button" class="px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">+</button>
+                                    <button  type="button" class="px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 decrease-btn" data-index="{{ loop.index0 }}">-</button>
+                                    <input data-index="{{ loop.index0 }}" id="quantity-{{ loop.index0 }}" type="text" value={{amount}}  class="text-lg font-bold w-12 text-center bg-transparent border-none outline-none quantity" readonly>
+                                    <button type="button" class="px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 increase-btn" data-index="{{ loop.index0 }}">+</button>
                                 </div>
                             </td>
-                            <td id="total-price" class="p-3 text-right font-bold">{{cart.total}} Tk</td>
+                            <td id="total-price-{{ loop.index0 }}" class="p-3 text-right font-bold"></td>
                         </tr>
+                        {% endif %}
+                        {% endfor %}
                         <!-- Dynamically add more products here -->
                     </tbody>
                 </table>
                 <!-- Cart Actions -->
                 <div class="flex justify-between mt-6">
-                    <button type="submit" name="action" value="save" class="btn btn-primary">Save</button>
+                    <button  value="save" class="btn btn-primary save-btn">Save</button>
                     <button  type="submit" name="action" value="clear" class="btn btn-primary">Clear Cart</button>
-                    <button type="submit" name="action" value="ok" class="btn btn-primary">Proceed to Checkout</button>
+                    <button value="ok" class="btn btn-primary save-btn">Proceed to Checkout</button>
                 </div>
             </form>
         </div>
@@ -48,30 +52,89 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const unitPrice = parseInt(1849);
-        const quantityInput = document.getElementById("quantity");
-        const totalPrice = document.getElementById("total-price");
-        const increaseBtn = document.getElementById("increase");
-        const decreaseBtn = document.getElementById("decrease");
-    
-        function updateTotal() {
-            let quantity = parseInt(quantityInput.value);
-            totalPrice.textContent = (unitPrice * quantity) + " Tk";
-        }
-    
-        increaseBtn.addEventListener("click", () => {
+        const prices = {{ cart.price | tojson }};
+
+    // Function to update the total price for each item
+    function updateTotal(index) {
+        const quantityInput = document.getElementById(`quantity-${index}`);
+        const totalPrice = document.getElementById(`total-price-${index}`);
+        let quantity = parseInt(quantityInput.value);
+        const unitPrice = parseInt(prices[index]);
+        totalPrice.textContent = (unitPrice * quantity) + " Tk";
+    }
+
+    // Handle the increase and decrease buttons for each item
+    document.querySelectorAll(".increase-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            const index = this.getAttribute("data-index");
+            const quantityInput = document.getElementById(`quantity-${index}`);
             quantityInput.value = parseInt(quantityInput.value) + 1;
-            updateTotal();
+            updateTotal(index);
         });
-    
-        decreaseBtn.addEventListener("click", () => {
+    });
+
+    document.querySelectorAll(".decrease-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            const index = this.getAttribute("data-index");
+            const quantityInput = document.getElementById(`quantity-${index}`);
             if (quantityInput.value > 0) {
                 quantityInput.value = parseInt(quantityInput.value) - 1;
-                updateTotal();
+                updateTotal(index);
             }
         });
-    
-        quantityInput.addEventListener("input", updateTotal);
+    });
+
+    // Update the backend when quantity changes - only when the save button is clicked
+    document.querySelectorAll(".save-btn").forEach(button => {
+        button.addEventListener("click", function (e) {
+        e.preventDefault();  // Prevent the default form submission
+        
+        const form = document.getElementById('cart-form');
+        
+        const existingactions = form.querySelectorAll('input[name="action"]');
+        existingactions.forEach(input => input.remove());
+        // deleting previously added actions
+        
+        const value = this.getAttribute("value");
+        const action = document.createElement('input');
+        action.type = 'hidden';
+        action.name = 'action';
+        action.value = value;
+        form.appendChild(action);
+        // Clear any previously added hidden inputs
+        const existingInputs = form.querySelectorAll('input[name^="quantity-"]');
+        existingInputs.forEach(input => input.remove());
+
+        // Loop through each item and add its quantity to the form
+        document.querySelectorAll(".quantity").forEach((input) => {
+            // Get the data-index from the input element
+            const rowIndex = input.getAttribute('data-index');
+            
+            // Get the quantity value from the input
+            const quantityValue = input.value;
+            
+            // Create a hidden input for the quantity
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = `quantity-${rowIndex}`; // Use the data-index for the name
+            hiddenInput.value = quantityValue;
+            
+            // Append the hidden input to the form
+            form.appendChild(hiddenInput);
+        });
+        
+
+        // Submit the form with the updated quantities
+        form.submit();
+    });
+});
+
+  // Update total prices for all items on page load
+  {% for amount in cart.amounts %}
+  {% if amount>0 %}
+  updateTotal({{ loop.index0 }});
+  {% endif %}
+  {% endfor %}
     });
     </script>
 

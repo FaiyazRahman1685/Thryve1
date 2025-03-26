@@ -53,11 +53,13 @@ def download_csv():
      
      return response
 
+def get_price(product):
+     creatine_price = db.execute("select * from products where name=?" , product)
+     return int(creatine_price[0]["price"])
 
-# @app.after_request
-# def add_cache_headers(response):
-#     response.headers["Cache-Control"] = "public, max-age=31536000" 
-#     return response
+def get_stock(product):
+     stock = db.execute("select * from products where name=?" , product)
+     return int(stock[0]["stock"])
 
 def order_no():
      while True:
@@ -69,13 +71,19 @@ def order_no():
 @app.before_request
 def ensure_session_defaults():
     session.setdefault("user", "guest")
-    session.setdefault("cart", {"item": 0, "total": 0})
-    session["cart"]["total"] = int(session["cart"]["item"]) * 1849  # Update total
+    session.setdefault("cart", {"items": ['creatine300g', 'creatine600g'], "amounts" : [0,0], "price": [], "total": 0})
+    session["cart"]["price"] = [get_price(item) for item in session["cart"]["items"]]
+    session["cart"]["total"] = 0
+    for index,amounts in enumerate(session["cart"]["amounts"]):
+         session["cart"]["total"] += amounts * session["cart"]["price"][index]
 
 
 @app.context_processor
 def inject_globals():
-    return {"user": session["user"], "cart": session["cart"]}
+    totalitem = 0
+    for amounts in session["cart"]["amounts"]:
+         totalitem += amounts
+    return {"user": session["user"], "cart": session["cart"], "totalitem":totalitem}
     
 
 @app.route("/", methods=["GET", "POST"])
@@ -163,34 +171,41 @@ def verifyotp():
 def buy():
      if request.method == "POST":
           amount = request.form.get("amount")
-          stock = db.execute("select * from stock")
-          if (int(amount) + int(session["cart"]["item"])) >  stock[0]["stock"]:
+          product = int(request.form.get("product"))
+          if (int(amount) + int(session["cart"]["amounts"][product])) >  get_stock(session["cart"]["items"][product]):
                flash("We dont have that much stock!!", "success")
                return redirect("/products")
-          session["cart"]["item"]  = int(amount) + int(session["cart"]["item"])
+          session["cart"]["amounts"][product]  = int(amount) + session["cart"]["amounts"][product]
           return redirect("/cart")
 
 @app.route("/cart" , methods=["GET", "POST"])
 def cart():
      if request.method == "POST":
           action = request.form.get("action")
-          amount = request.form.get("quantity")
-          stock = db.execute("select * from stock")
           if action == "clear":
-               session["cart"]["item"]  = 0
+               session["cart"]["amounts"]  = [0,0]
                flash("Cart cleared", "success")
                return redirect("/cart")
-          if int(amount) >  stock[0]["stock"]:
-               flash("We dont have that much stock!!", "success")
-               return redirect("/cart")
+          for key,value in request.form.items():
+               if key.startswith('quantity-'):  # Ensure it's a quantity field
+                    index = int(key.split('-')[1])  # Extract the index from the key
+                    new_quantity = int(value)  # Get the new quantity
+                    if new_quantity> get_stock(session["cart"]["items"][index]):
+                         flash("We dont have that much stock!!", "success")
+                         return redirect("/cart")
+                    if new_quantity > -1:
+                         session["cart"]['amounts'][index] = new_quantity 
+          totalitem = 0
+          for amounts in session["cart"]["amounts"]:
+               totalitem += amounts
           if action == "save":
-               session["cart"]["item"]  = int(amount)
-               flash("Cart saved", "success")
-          if action == "ok" and int(amount) == 0:
+               return redirect("/cart") 
+          if action == "ok" and totalitem == 0:
                flash("Can't proceed with 0 items on cart", "error")
-          if action == "ok" and int(amount)>0:
-               session["cart"]["item"]  = int(amount)
+               return redirect("/cart")
+          if action == "ok" and totalitem>0:
                return redirect("/placeorder")
+          
      
      return render_template("cart.html")
 
@@ -202,12 +217,6 @@ def placeorder():
 @app.route("/confirm", methods=["GET", "POST"])
 def confirm():
      if request.method == "POST":
-          stock = db.execute("select * from stock")
-          if int(session["cart"]["item"]) >  stock[0]["stock"]:
-               flash("We dont have that much stock!!", "success")
-               return redirect("/")
-          if  int(session["cart"]["item"]) == 0:
-               flash("Can't proceed with 0 items on cart", "error")
           subject = "Order Confirmation"
           email = request.form.get("email")
           name = request.form.get("name")
@@ -225,17 +234,28 @@ def confirm():
           except Exception:
                return render_template("error.html",error="could not send email to " + email, status="Error!")
 
-     db.execute("insert into orders(product_name,customer_name,email,address,date_time,status,phone,quantity,bill,order_number) values(?,?,?,?,?,?,?,?,?,?)", 
-                     "Creatine",name,email,address,order_time, "pending",phone,session["cart"]["item"],session["cart"]["total"]+100, order_number)
-     db.execute("update stock set stock= stock-?" , session["cart"]["item"])
-     flash("Your receipt has been sent to " + email, "success")
-     return redirect("/")
+          for index,amount in enumerate(session["cart"]["amounts"]):
+               if amount >  get_stock(session["cart"]["items"][index]):
+                    flash("We dont have that much stock!!", "success")
+                    return redirect("/")
+               if amount>0:
+                    db.execute("insert into orders(product_name,customer_name,email,address,date_time,status,phone,quantity,bill,order_number) values(?,?,?,?,?,?,?,?,?,?)", 
+                                   session["cart"]["items"][index],name,email,address,order_time, "pending",phone,amount,session["cart"]["total"]+100, order_number)
+                    db.execute("update products set stock= stock-? where name=?" ,amount,session["cart"]["items"][index] )
+                    
+          flash("Your receipt has been sent to " + email, "success")
+          return redirect("/")
 
 @app.route("/editstock" , methods=["GET", "POST"])
 def email():
      if request.method == "POST":
+          action = request.form.get("action")
           add = request.form.get("amount")
-          db.execute("update stock set stock=?" , add)
+          id = request.form.get("id")
+          if action=="editstock":
+               db.execute("update products  set stock=? where name=?" ,add, id)
+          if action=="editprice":
+             db.execute("update products set price=? where name=?" ,add, id)             
           return redirect("/admin")
 
 @app.route("/contact", methods=["GET", "POST"])
@@ -258,9 +278,10 @@ def admin():
           row2= db.execute("select * from orders where status = 'delivered' ")
           row3 = db.execute("select * from msg")
           row4 = db.execute("select * from orders where status = 'shipping' ")
+          row5= db.execute("select * from products")
           db.execute("update stock set active_orders=?,completed_orders=?,shipped_orders=?", len(row),len(row2),len(row4))
           stock = db.execute("select * from stock")
-          return render_template("admin.html", row=row , stock=stock[0], row2=row2, row3=row3 , row4 =row4)
+          return render_template("admin.html", row=row , stock=stock[0], row2=row2, row3=row3 , row4 =row4, row5=row5)
      else:
           return redirect("/login")
 
@@ -273,7 +294,7 @@ def action():
           order= db.execute("select * from orders where id=?",id)
           if action == "remove":
                db.execute("delete from orders where id=?", id)
-               db.execute("update stock set stock=stock+?", order[0]["quantity"])
+               db.execute("update products set stock=stock+? where name=?", order[0]["quantity"],order[0]["product_name"])
                return redirect("/admin")
           if action == "removemsg":
                db.execute("delete from msg where id=? ", id)
@@ -288,3 +309,4 @@ def about():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+

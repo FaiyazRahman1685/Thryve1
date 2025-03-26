@@ -73,7 +73,7 @@
         <div class="flex  flex-col items-start gap-3">
           <div class="flex items-center space-x-2 mt-2">
             <span class="text-gray-500 text-4xl line-through">2399</span>
-            <span class="text-4xl font-custom font-light">1849</span>
+            <span class="text-4xl font-custom font-light">{{cart.price[0]}}</span>
             <span class="text-2xl font-custom font-normal">BDT</span>
         </div>
         <p class="text-lg font-custom font-bold text-white">*Promotional Offer</p>
@@ -85,7 +85,10 @@
                   <input id="quantity" name="amount" type="number" value="1" min="1" class="w-9 text-center text-black outline-none" readonly>
                   <button onclick="increaseQuantity()" type="button" class="px-3 py-2 border-l text-black border-gray-300">+</button>
               </div>
-      
+              <select class="text-black px-3 py-2" name="product">
+                <option value=0 >300g</option>
+                <option value=1 >600g</option>
+              </select>
               <!-- Add to Cart Button -->
               <button class="btn btn-primary" type="submit">
                   ADD TO CART
